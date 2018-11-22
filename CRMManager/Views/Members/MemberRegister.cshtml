@@ -1,0 +1,150 @@
+﻿@using System.Collections
+@using CRMManager.Models
+@model CRMManager.Models.Member
+
+@{
+    ViewBag.Title = "Member Register";
+}
+
+@section styles{
+
+    <link href="~/Content/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/switchery.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+
+                @using (Html.BeginForm("MemberRegister", "Members", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+
+                    @Html.AntiForgeryToken() // this is for prevent CSRF attack
+                    @Html.ValidationSummary(true)
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="MemberCode" class="col-sm-3 control-label">Member Code:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="MemberCode" id="MemberCode" readonly value="AUTO_GENERATED" />
+                                    <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membercode")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberName" class="col-sm-3 control-label">Member Name:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="MemberName" id="MemberName" value="" />
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membername")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberAddress" class="col-sm-3 control-label">Address:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="MemberAddress" id="MemberAddress" value="" />
+                                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                </div>
+                                @Html.ValidationMessage("memberaddress")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberMobile" class="col-sm-3 control-label">Mobile:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="MemberMobile" id="MemberMobile" value="" />
+                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membermobile")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberDOB" class="col-sm-3 control-label">Date Of Birth:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="MemberDOB" value="" id="datepicker-autoclose">
+                                    <span class="input-group-addon bg-primary b-0 text-white"><i class="ion-calendar"></i></span>
+                                </div>
+                                @Html.ValidationMessage("memberdob")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberType" class="col-sm-3 control-label">Member Type:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    @Html.DropDownListFor(m => m.MemberType, Model.MemberTypeOptions, new { @class = "form-control" })
+                                    <span class="input-group-addon"><i class="fa fa-map-signs"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membertype")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberCourt" class="col-sm-3 control-label">Court:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    @Html.DropDownListFor(m => m.MemberCourt, Model.MemberCourtOptions, new { @class = "form-control" })
+                                    <span class="input-group-addon"><i class="fa fa-square"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membercourt")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberTimeslot" class="col-sm-3 control-label">Timeslot:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    @Html.DropDownListFor(m => m.MemberTimeslot, Model.MemberTimeslotOptions, new { @class = "form-control" })
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                </div>
+                                @Html.ValidationMessage("membertimeslot")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberStatus" class="col-sm-3 control-label">Member Status:</label>
+                            <div class="col-sm-1">
+                                <input type="checkbox" data-plugin="switchery" data-color="#00b19d" data-size="medium" checked="checked" class="form-control" name="MemberStatus" id="MemberStatus" value="true" />
+                            </div>
+                            @Html.ValidationMessage("memberstatus")
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-1">
+                            <label>&nbsp;</label>
+                            <input type="submit" value="Register" class="btn btn-primary waves-effect waves-light" />
+                        </div>
+                    </fieldset>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        (function ($) {
+
+            // Date Picker
+            $('#datepicker').datepicker();
+            $('#datepicker-autoclose').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                todayHighlight: true
+            });
+
+        }(jQuery));
+
+    </script>
+}

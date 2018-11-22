@@ -1,0 +1,127 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model IEnumerable<CRMManager.Models.Member>
+
+@{
+    ViewBag.Title = "Slot Wise Members List";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    List of Registered Members (Active and Inactive)
+                </div>
+                <!--Search Result Page Start-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberCode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberMobile)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberDob)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberTimeslot)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberCourt)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberStatus)
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+
+                                @if (ViewData["SearchResult"] is List<Member> searchResultData)
+                                {
+
+                                    foreach (var item in searchResultData)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @{
+                                                    var memberCode = item.MemberCode;
+                                                }
+                                                @Html.ActionLink(memberCode, "MemberUpdateSearch", "Members", new { profileID = memberCode }, null)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberMobile)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberDob)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberTimeslot)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberCourt)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberType)
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var MemberStatus = item.MemberStatus;
+                                                }
+                                                @Html.DisplayFor(modelItem => item.MemberStatus)
+                                            </td>
+                                            <td>
+                                                @{
+                                                    if (MemberStatus == true)
+                                                    {
+                                                        @Html.ActionLink(
+                                                            "De-Register",
+                                                            "/MemberDeRegister",
+                                                            "Members",
+                                                            routeValues: new
+                                                            {
+                                                                memberId = memberCode
+                                                            },
+                                                            htmlAttributes: new
+                                                            {
+                                                                onclick = "return confirm('Do you really want to de-register " + @memberCode + " - " + @item.MemberName + "?')"
+                                                            }
+                                                            )
+                                                    }
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

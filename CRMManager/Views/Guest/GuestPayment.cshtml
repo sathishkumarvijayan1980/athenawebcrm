@@ -1,0 +1,142 @@
+﻿@model CRMManager.Models.Guest
+
+@{
+    ViewBag.Title = "Guest Payment";
+}
+
+<link href="~/Content/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-purple">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel-body">
+                <h4 class="m-t-0 header-title"><b>@ViewBag.Message</b></h4>
+                <p class="text-muted font-13 m-b-30">
+                    Please fill all fields to Make Member Payment
+                </p>
+
+                @using (Html.BeginForm("GuestPaymentSubmit", "Guest", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken() // this is for prevent CSRF attack
+                    @Html.ValidationSummary(true)
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="GuestName" class="col-sm-3 control-label">Guest Name:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="GuestName" id="GuestName" value="@Model.GuestName" />
+                            </div>
+                            @Html.ValidationMessage("guestname")
+                        </div>
+                        <div class="form-group">
+                            <label for="GuestMobile" class="col-sm-3 control-label">Mobile:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="GuestMobile" id="GuestMobile" value="@Model.GuestMobile" />
+                            </div>
+                            @Html.ValidationMessage("membermobile")
+                        </div>
+                        <hr />
+
+                        <div class="form-group">
+                            <label for="PaymentDate" class="col-sm-3 control-label">Payment Date:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="PaymentDate" value="" id="datepicker-autoclose">
+                                    <span class="input-group-addon bg-primary b-0 text-white"><i class="ion-calendar"></i></span>
+                                </div>
+                            </div>
+                            @Html.ValidationMessage("paymentdate")
+                        </div>
+
+                        @*<div class="form-group">
+                                <label for="PaymentDate" class="col-sm-3 control-label">Payment Date:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" readonly name="PaymentDate" id="PaymentDate" value="@DateTime.Now.ToString("MM/dd/yyyy")" />
+                                </div>
+                                @Html.ValidationMessage("paymentdate")
+                            </div>*@
+
+                        <div class="form-group">
+                            <label for="PaymentAmount" class="col-sm-3 control-label">Payment Amount:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="PaymentAmount" id="PaymentAmount" value="" />
+                            </div>
+                            @Html.ValidationMessage("paymentamount")
+                        </div>
+                        <div class="form-group">
+                            <label for="ReceiptNumber" class="col-sm-3 control-label">ReceiptNumber:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="ReceiptNumber" id="ReceiptNumber" value="" />
+                            </div>
+                            @Html.ValidationMessage("receiptnumber")
+                        </div>
+                        <div class="form-group">
+                            <label for="PaymentMode" class="col-sm-3 control-label">PaymentMode:</label>
+                            <div class="col-sm-7">
+                                @Html.DropDownListFor(m => m.PaymentMode, Model.PaymentModeOptions, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessage("paymentmode")
+                        </div>
+                        <div class="form-group">
+                            <label for="CollectedBy" class="col-sm-3 control-label">CollectedBy:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="CollectedBy" id="CollectedBy" value="" />
+                            </div>
+                            @Html.ValidationMessage("collectedby")
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberCourt" class="col-sm-3 control-label">Court:</label>
+                            <div class="col-sm-7">
+                                @Html.DropDownListFor(m => m.GuestCourt, Model.GuestCourtOptions, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessage("membercourt")
+                        </div>
+                        <div class="form-group">
+                            <label for="MemberTimeslot" class="col-sm-3 control-label">Timeslot:</label>
+                            <div class="col-sm-7">
+                                @Html.DropDownListFor(m => m.GuestTimeslot, Model.GuestTimeslotOptions, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessage("membertimeslot")
+                        </div>
+                        <div class="form-group">
+                            <label for="Notes" class="col-sm-3 control-label">Notes:</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="Notes" id="Notes" value="" />
+                            </div>
+                            @Html.ValidationMessage("notes")
+                        </div>
+                        <div class="col-sm-offset-2 col-sm-1">
+                            <label>&nbsp;</label>
+                            <input type="submit" value="Pay Now" class="btn btn-primary waves-effect waves-light" />
+                        </div>
+                    </fieldset>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+
+        (function ($) {
+
+            // Date Picker
+            $('#datepicker').datepicker();
+            $('#datepicker-autoclose').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                todayHighlight: true
+            });
+
+        }(jQuery));
+
+    </script>
+}

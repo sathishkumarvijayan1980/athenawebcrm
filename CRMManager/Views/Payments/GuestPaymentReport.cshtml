@@ -1,0 +1,204 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model IEnumerable<CRMManager.Models.PaymentReport>
+
+@{
+    ViewBag.Title = "Guest Payment Report";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            @{
+                string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(@ViewBag.Message);
+
+                int currentMonth = DateTime.ParseExact(monthName, "MMMM", CultureInfo.CurrentCulture).Month;
+
+                int previousMonth = currentMonth - 1;
+
+                string previousMonthName = new DateTime((DateTime.Now.Year), previousMonth, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("en"));
+
+                int nextMonth = currentMonth + 1;
+
+                string nextMonthName = new DateTime((DateTime.Now.Year), nextMonth, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("en"));
+            }
+
+            <!--Search Result Page Start-->
+           
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    Payment Information for the Month - @monthName
+                </div>
+
+                <div>
+                    <ul class="pager">
+                        <li>
+                            <a href="/Payments/GuestPaymentReport?monthId=@previousMonth"><i class="fa fa-angle-left"></i> @previousMonthName</a>
+                        </li>
+                        <li>
+                            <a href="/Payments/GuestPaymentReport?monthId=@nextMonth">@nextMonthName <i class="fa fa-angle-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="export-button-text pull-right m-b-10 m-r-10">
+                        <button onclick="exportTableToExcel('tblData', 'guest-payment-data')">Export Data To Excel</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                            <p class="text-muted font-13 m-b-30">
+                                Payment Information
+                            </p>
+                            <table class="table" id="tblData">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberPaymentId)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberMobile)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberTimeslot)
+                                    </th>
+                                   
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ReceiptNumber)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentMode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CollectedBy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Notes)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @if (ViewData["SearchResult"] is List<PaymentReport> searchResultData)
+    {
+
+        foreach (var item in searchResultData)
+        {
+            if (item.MemberType != "TOTAL")
+            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberPaymentId)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberMobile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberTimeslot)
+                                </td>
+                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReceiptNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentMode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CollectedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Notes)
+                                </td>
+                            </tr>
+}
+else
+{
+                            <tr>
+                                <td></td>
+                                <td></td>
+                               
+                                <td></td>
+                                <td>Total</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+}
+}
+}
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Search Result Page End-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script>

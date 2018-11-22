@@ -1,0 +1,79 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model IEnumerable<CRMManager.Models.Availability>
+
+@{
+    ViewBag.Title = "Member Slot Availability";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-pull-8">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table class="table">
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberCourt)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SlotName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberCount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Capacity)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @if (ViewData["SearchResult"] is List<Availability> searchResultData)
+                    {
+                        foreach (var item in searchResultData)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MemberCourt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SlotName)
+                                </td>
+                                <td align="center">
+                                    @{
+                            var memberCount = item.MemberCount;
+                                    }
+                                    @Html.ActionLink(memberCount, "ListSlotMembers", "Members", new { slotid = item.SlotId, courtid = item.MemberCourt }, null)
+                                </td>
+                                <td align="center">
+                                    @Html.DisplayFor(modelItem => item.Capacity)
+                                </td>
+                            </tr>
+            }
+        }
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Search Result Page End-->
+            </div>
+        </div>
+    </div>
+</div>

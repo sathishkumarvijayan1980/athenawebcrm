@@ -1,0 +1,107 @@
+body.print-form {
+    background-color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 19px;
+    border-radius: 5px;
+    width: 21cm;
+    min-height: 20cm;
+}
+
+#print-logo {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#print-name-header {
+    font-size: large;
+}
+
+#print-name-body {
+    font-size: medium;
+}
+
+#receipt-header {
+    width: auto;
+    height: 2cm;
+    clear: both;
+    border-bottom: 1px solid gray;
+}
+
+#receipt-body {
+    width: auto;
+    height: 5.5cm;
+    border-bottom: 0px solid red;
+    clear: both;
+}
+
+#header-logo {
+    display: table;
+    width: 15%;
+    height: 100%;
+    margin-left: 0px;
+    float: left;
+}
+
+#header-brand {
+    display: table;
+    float: left;
+    width: 55%;
+    margin-left: 25px;
+    height: 100%;
+    text-align: center;
+}
+
+#header-reference {
+    display: table;
+    float: left;
+    width: 24%;
+    margin-right: 5px;
+    height: 100%;
+    text-align: right;
+    font-size: 22px;
+}
+
+#invoice-content-left {
+    display: table;
+    float: left;
+    height: 100%;
+    text-align: left;
+    padding-left: 20px;
+    line-height: 2;
+    width: 200px;
+}
+
+#invoice-content-middle {
+    display: table;
+    float: left;
+    height: 100%;
+    width: 50%;
+    text-align: left;
+    line-height: 2;
+}
+
+#invoice-content-right {
+    display: table;
+    float: left;
+    margin-right: 2px;
+    height: 100%;
+    text-align: right;
+    font-size: 32px;
+    border: 0px solid red;
+}
+
+#print-hr {
+    border-top: 1px dotted black;
+}
+
+p.signature-left {
+    font-size: 15px;
+    text-align: right;
+    width: 85%;
+    padding-top: 15px;
+}
+
+.inner {
+    display: table-cell;
+    vertical-align: middle;
+}

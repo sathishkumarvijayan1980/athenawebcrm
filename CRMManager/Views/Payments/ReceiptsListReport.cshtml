@@ -1,0 +1,147 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model IEnumerable<CRMManager.Models.SysReceipts>
+
+@{
+    ViewBag.Title = "Receipts List Report";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+            @{
+                string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(@ViewBag.Message);
+
+                int currentMonth = DateTime.ParseExact(monthName, "MMMM", CultureInfo.CurrentCulture).Month;
+
+                int previousMonth = currentMonth - 1;
+
+                string previousMonthName = new DateTime((DateTime.Now.Year), previousMonth, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("en"));
+
+                int nextMonth = currentMonth + 1;
+
+                string nextMonthName = new DateTime((DateTime.Now.Year), nextMonth, 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("en"));
+
+            }
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    Recipts Information for the Month - @monthName
+                </div>
+
+                <!--Search Result Page Start-->
+
+                <div>
+                    <ul class="pager">
+                        <li>
+                            <a href="/Payments/ReceiptsListReport?monthId=@previousMonth"><i class="fa fa-angle-left"></i> @previousMonthName</a>
+                        </li>
+                        <li>
+                            <a href="/Payments/ReceiptsListReport?monthId=@nextMonth">@nextMonthName <i class="fa fa-angle-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="export-button-text pull-right m-b-10 m-r-10">
+                        <button onclick="exportTableToExcel('tblData', 'Receipts-List')">Export Data To Excel</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                            <p class="text-muted font-13 m-b-30">
+                                Receipts ListReport Information
+                            </p>
+                            <table class="table" id="tblData">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ReceiptsCount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RegFeesAmt)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SysRefNumber)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @if (ViewData["SearchResult"] is List<SysReceipts> searchResultData)
+                                {
+
+                                    foreach (var item in searchResultData)
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ReceiptsCount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PaymentDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.RegFeesAmt)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SysRefNumber)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Search Result Page End-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script>

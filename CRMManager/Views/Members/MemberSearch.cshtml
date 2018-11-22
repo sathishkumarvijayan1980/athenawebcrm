@@ -1,0 +1,187 @@
+﻿@using System.Web.UI.HtmlControls
+@using CRMManager.Models
+@model CRMManager.Models.Member
+
+@{
+    ViewBag.Title = "Member Search";
+}
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    @ViewBag.Message
+                </div>
+                <!--Search Page Start-->
+                @using (Html.BeginForm("MemberSearchActionSubmit", "Members", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+
+                    @Html.AntiForgeryToken() // this is for prevent CSRF attack
+                    <fieldset>
+                        <div id="wrapper">
+                            <div id="first">
+                                <div class="radio radio-info">
+                                    <input type="radio" name="SearchBy" id="CustName" value="MemberName" checked>
+                                    <label for="CustName">
+                                        Member Name
+                                    </label>
+                                </div>
+                                <div class="radio radio-success">
+                                    <input type="radio" name="SearchBy" id="CustMobile" value="MemberMobile">
+                                    <label for="CustMobile">
+                                        Mobile #
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="second">
+                                <div class="form-group">
+                                    <label for="MemberMobile" class="col-sm-offset-1 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="MemberMobile" name="MemberMobile" value="" />
+                                    </div>
+
+                                    <label>&nbsp;</label>
+                                    <input type="submit" value="Search" class="btn btn-primary waves-effect waves-light" />
+                                </div>
+                                @Html.ValidationMessage("membermobile")
+                            </div>
+                           
+                        </div>
+                    </fieldset>
+                }
+
+                <!--Search Page End-->
+                <!--Search Result Page Start-->
+
+                @{
+                    if (ViewData["SearchResult"] is List<Member> searchResultData)
+                    {
+
+                        <div class="row">
+                            <br />
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                                    <p class="text-muted font-13 m-b-30">
+                                        Member Information
+                                    </p>
+
+                                    <table id="datatable_keytable" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="20">MemberCode</th>
+                                                <th width="20">Name</th>
+                                                <th width="20">Mobile</th>
+                                                <th width="20">Address</th>
+                                                <th width="20">Type</th>
+                                                <th width="20">Timeslot</th>
+                                                <th width="20">Court</th>
+                                                <th width="20">Status</th>
+                                                <th width="20">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                foreach (var memberData in searchResultData)
+                                                {
+                                                    <tr>
+                                                        <td>@memberData.MemberCode</td>
+                                                        <td>@memberData.MemberName</td>
+                                                        <td>@memberData.MemberMobile</td>
+                                                        <td>@memberData.MemberAddress</td>
+                                                        <td>@memberData.MemberType</td>
+                                                        <td>@memberData.MemberTimeslot</td>
+                                                        <td>@memberData.MemberCourt</td>
+                                                        <td>@memberData.MemberStatus</td>
+
+                                                        <td>
+
+                                                            @Html.ActionLink(
+linkText: "Edit Profile",
+actionName: "MemberUpdateSearch",
+controllerName: "Members",
+routeValues: new
+{
+profileID = @memberData.MemberCode
+},
+htmlAttributes: new
+{
+@class = "btn btn-success btn-rounded w-md waves-effect waves-light m-b-5"
+}
+)
+
+
+
+                                                            @Html.ActionLink(
+linkText: "View Payments",
+actionName: "PaymentsHistorySearch",
+controllerName: "Payments",
+routeValues: new
+{
+profileID = @memberData.MemberCode
+},
+htmlAttributes: new
+{
+@class = "btn btn-primary btn-rounded w-md waves-effect waves-light m-b-5"
+}
+)
+
+
+
+                                                            @Html.ActionLink(
+linkText: "Make Payment",
+actionName: "MemberSearchForPayment",
+controllerName: "Payments",
+routeValues: new
+{
+profileID = @memberData.MemberCode
+},
+htmlAttributes: new
+{
+@class = "btn btn-info btn-rounded w-md waves-effect waves-light m-b-5"
+}
+)
+
+                                                        </td>
+
+                                                    </tr>
+
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!--Search Result Page End-->
+                }
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable_keytable').DataTable();
+        });
+
+    </script>
+}

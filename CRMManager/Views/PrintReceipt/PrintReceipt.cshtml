@@ -1,0 +1,165 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model CRMManager.Models.ReceiptPrint
+
+@{
+    ViewBag.Title = "Print Receipt";
+
+    ReceiptPrint objReceiptData = (ReceiptPrint)ViewData["ReceiptData"];
+}
+
+<body class="print-form">
+    <form method="post" action="#">
+        <div id="receipt-form">
+            <div id="receipt-header">
+                <div id="header-logo">
+                    <div class="inner" id="print-form">
+                        <img src="~/Images/login_print_receipt.png" id="print-logo" />
+                    </div>
+                </div>
+                <div id="header-brand">
+                    <div class="inner">
+                        <text id="print-name-header">@objReceiptData.BrandName</text><br />
+                        <text>@objReceiptData.BrandAddress1</text><br/>
+                        <text>@objReceiptData.BrandAddress2</text>
+                    </div>
+                </div>
+                <div id="header-reference">
+                    <div class="inner">
+                        <text>#@objReceiptData.SysRefNumber</text><br />
+                        <text id="print-name-header">Accounts Copy</text><br />
+                    </div>
+                </div>
+            </div>
+
+            <div id="receipt-body">
+                <div id="invoice-content-left">
+                    <div class="inner">
+                        <text>Timeslot:</text><br />
+                        <text>@objReceiptData.Timeslot</text><br />
+                        <text>Print Date/Time:</text><br />
+                        <text>@objReceiptData.PrintDt</text><br />
+                    </div>
+                </div>
+                <div id="invoice-content-middle">
+                    <div class="inner">
+                        <text>Received from: <i>@objReceiptData.MemberName</i> </text><br />
+                        <text>towards: <i>@objReceiptData.MemberType (MId: @objReceiptData.MemberCode ) </i></text><br />
+                        <text>the Sum of: <i>@objReceiptData.PaymentDesc</i></text><br />
+                        <text>payment mode: <i>@objReceiptData.PaymentMode</i></text><br />
+                        <text>period: <i>@objReceiptData.PaymentPeriod</i></text>
+                    </div>
+                </div>
+                <div id="invoice-content-right">
+                    <div class="inner">
+                        <text>Rs. @objReceiptData.PaymentAmount</text> <br /><br />
+                        <p class="signature-left">Signature</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr id="print-hr" />
+        <div id="receipt-form">
+            <div id="receipt-header">
+                <div id="header-logo">
+                    <div class="inner">
+                        <img src="~/Images/login_print_receipt.png" id="print-logo" />
+                    </div>
+                </div>
+                <div id="header-brand">
+                    <div class="inner">
+                        <text id="print-name-header">@objReceiptData.BrandName</text><br />
+                        <text>@objReceiptData.BrandAddress1</text><br />
+                        <text>@objReceiptData.BrandAddress2</text>
+                    </div>
+                </div>
+                <div id="header-reference">
+                    <div class="inner">
+                        <text>#@objReceiptData.SysRefNumber</text><br />
+                        <text id="print-name-header">Customer Copy</text><br />
+                    </div>
+                </div>
+            </div>
+
+            <div id="receipt-body">
+                <div id="invoice-content-left">
+                    <div class="inner">
+                        <text>Timeslot:</text><br />
+                        <text>@objReceiptData.Timeslot</text><br />
+                        <text>Print Date/Time:</text><br />
+                        <text>@objReceiptData.PrintDt</text><br />
+                    </div>
+                </div>
+                <div id="invoice-content-middle">
+                    <div class="inner">
+                        <text>Received from: <i>@objReceiptData.MemberName</i> </text><br />
+                        <text>towards: <i>@objReceiptData.MemberType (MId: @objReceiptData.MemberCode ) </i></text><br />
+                        <text>the Sum of: <i>@objReceiptData.PaymentDesc</i></text><br />
+                        <text>payment mode: <i>@objReceiptData.PaymentMode</i></text><br />
+                        <text>period: <i>@objReceiptData.PaymentPeriod</i></text>
+                    </div>
+                </div>
+                <div id="invoice-content-right">
+                    <div class="inner">
+                        <text>Rs.@objReceiptData.PaymentAmount</text> <br /><br />
+                        <p class="signature-left">Signature</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr id="print-hr" />
+        <div id="receipt-form">
+            <div id="receipt-header">
+                <div id="header-logo">
+                    <div class="inner">
+                        <img src="~/Images/login_print_receipt.png" id="print-logo" />
+                    </div>
+                </div>
+                <div id="header-brand">
+                    <div class="inner">
+                        <text id="print-name-header">@objReceiptData.BrandName</text><br />
+                        <text>@objReceiptData.BrandAddress1</text><br />
+                        <text>@objReceiptData.BrandAddress2</text>
+                    </div>
+                </div>
+                <div id="header-reference">
+                    <div class="inner">
+                        <text>#@objReceiptData.SysRefNumber</text><br />
+                        <text id="print-name-header">Office Copy</text><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="receipt-body">
+            <div id="invoice-content-left">
+                <div class="inner">
+                    <text>Timeslot:</text><br />
+                    <text>@objReceiptData.Timeslot</text><br />
+                    <text>Print Date/Time:</text><br />
+                    <text>@objReceiptData.PrintDt</text><br />
+                </div>
+            </div>
+            <div id="invoice-content-middle">
+                <div class="inner">
+                    <text>Received from: <i>@objReceiptData.MemberName</i> </text><br />
+                    <text>towards: <i>@objReceiptData.MemberType (MId: @objReceiptData.MemberCode ) </i></text><br />
+                    <text>the Sum of: <i>@objReceiptData.PaymentDesc</i></text><br />
+                    <text>payment mode: <i>@objReceiptData.PaymentMode</i></text><br />
+                    <text>period: <i>@objReceiptData.PaymentPeriod</i></text>
+                </div>
+            </div>
+            <div id="invoice-content-right">
+                <div class="inner">
+                    <text>Rs. @objReceiptData.PaymentAmount</text> <br /><br />
+                    <p class="signature-left">Signature</p>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+
+</body>
+

@@ -1,0 +1,210 @@
+﻿@using System.Globalization
+@using CRMManager.Models
+@model IEnumerable<CRMManager.Models.PaymentReport>
+
+@{
+    ViewBag.Title = "Guest Collection Report - Daily";
+}
+
+<link href="~/Content/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-color panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@ViewBag.Title</h3>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    Guest Collection for the Day - @ViewBag.Message
+                </div>
+
+                <!--Search Result Page Start-->
+                @using (Html.BeginForm("GuestCollectionReport", "Payments", FormMethod.Get, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken() // this is for prevent CSRF attack
+                    @Html.ValidationSummary(true)
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="PaymentDate" class="col-sm-3 control-label">Select Payment Date:</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="PaymentDate" value="" readonly id="datepicker-autoclose">
+                                    <span class="input-group-addon bg-primary b-0 text-white"><i class="ion-calendar"></i></span>
+                                    <span>&nbsp;&nbsp;&nbsp;<input type="submit" value="Go" class="btn btn-primary waves-effect waves-light" /></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <h4 class="m-t-0 header-title"><b>Search Result</b></h4>
+                            <p class="text-muted font-13 m-b-30">
+                                Payment Information
+                            </p>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberPaymentId)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberMobile)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberTimeslot)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MemberType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ReceiptNumber)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PaymentMode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CollectedBy)
+                                    </th>
+                                    <th>Status/Action</th>
+                                </tr>
+
+                                @if (ViewData["SearchResult"] is List<PaymentReport> searchResultData)
+                                {
+
+                                    foreach (var item in searchResultData)
+                                    {
+                                        if (item.MemberType != "TOTAL")
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MemberPaymentId)
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MemberName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MemberMobile)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MemberTimeslot)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.MemberType)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ReceiptNumber)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PaymentMode)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CollectedBy)
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        var paymentStatus = item.IsActive;
+
+                                                        var memberPaymentId = item.MemberPaymentId;
+
+                                                        if (paymentStatus == true)
+                                                        {
+
+                                                            @Html.ActionLink(
+"Cancel",
+"/GuestCancel",
+"Guest",
+routeValues: new
+{
+memberPaymentId = memberPaymentId
+},
+htmlAttributes: new
+{
+onclick = "return confirm('Do you really want to cancel " + @memberPaymentId + "?')"
+}
+)
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DisplayName("Cancelled");
+                                                        }
+
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total</td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Search Result Page End-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Content/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+
+        (function ($) {
+
+            // Date Picker
+            $('#datepicker').datepicker();
+            $('#datepicker-autoclose').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                todayHighlight: true
+            });
+
+        }(jQuery));
+
+    </script>
+}
