@@ -169,6 +169,7 @@
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Availability.cs" />
+    <Compile Include="Models\MemberPayment.cs" />
     <Compile Include="Models\ReceiptPrint.cs" />
     <Compile Include="Models\PaymentReport.cs" />
     <Compile Include="Models\Payment.cs" />
@@ -444,6 +445,7 @@
     <Content Include="Views\Payments\GuestCollectionReport.cshtml" />
     <Content Include="Views\PrintReceipt\PrintReceipt.cshtml" />
     <Content Include="Views\Payments\ReceiptsListReport.cshtml" />
+    <Content Include="Views\Members\MemberLastPaymentReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

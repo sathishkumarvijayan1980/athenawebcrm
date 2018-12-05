@@ -249,6 +249,15 @@ namespace CRMManager.Controllers
             return View("../PrintReceipt/PrintReceipt");
         }
 
+        [HttpGet]
+        public ActionResult MemberLastPaymentReport()
+        {
+            List<MemberPayment> membersLastPaidList = new PaymentDao().MemberLastPaymentReport();
+            ViewData["SearchResult"] = membersLastPaidList;
+            //ViewBag.Message = Convert.ToInt32(selectedMonth);
+            return View("MemberLastPaymentReport");
+        }
+
 
     }
 }

@@ -250,6 +250,7 @@ namespace CRMManager.DataAccess
                         {
                             ReceiptsCount = ds.Tables[0].Rows[i]["ReceiptCount"].ToString(),
                             PaymentDate = memberPaymentDate,
+                            PaymentMode = ds.Tables[0].Rows[i]["PaymentMode"].ToString(),
                             PaymentAmount = ds.Tables[0].Rows[i]["RenewalAmt"].ToString(),
                             RegFeesAmt = ds.Tables[0].Rows[i]["RegFeesAmt"].ToString(),
                             SysRefNumber = ds.Tables[0].Rows[i]["SysRefNumber"].ToString()
@@ -472,6 +473,60 @@ namespace CRMManager.DataAccess
             }
 
             return listGuestPayments;
+        }
+
+        public List<MemberPayment> MemberLastPaymentReport()
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+
+            SqlCommand sqlCommand = new SqlCommand();
+            List<MemberPayment> listMemberPayments = new List<MemberPayment>();
+            try
+            {
+                using (SqlConnection connection =
+                    new SqlConnection(CommonUtility.Sqlconnectionstring))
+                {
+                    connection.Open();
+                    sqlCommand.Connection = connection;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.CommandText = "Sp_getmemberwiselastpayment";
+                    
+                    adapter.SelectCommand = sqlCommand;
+                    adapter.Fill(ds);
+
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        var objDateTime = (DateTime)ds.Tables[0].Rows[i]["lastpaymentdate"];
+                        string memberPaymentDate = objDateTime.ToString("dd-MMM-yyyy");
+
+                        MemberPayment membersList = new MemberPayment
+                        {   
+                            MemberCode = (string)ds.Tables[0].Rows[i]["membercode"],
+                            MemberName = (string)ds.Tables[0].Rows[i]["membername"],
+                            MemberMobile = ds.Tables[0].Rows[i]["membermobile"].ToString(),
+                            MemberType = (string)ds.Tables[0].Rows[i]["membertype"],
+                            TimeSlot = (string)ds.Tables[0].Rows[i]["slotname"],
+                            PaymentDate = memberPaymentDate,
+                            PaymentAmount = ds.Tables[0].Rows[i]["paymentamount"].ToString(),
+                            IsActive = (bool)ds.Tables[0].Rows[i]["isactive"]
+                        };
+
+                        listMemberPayments.Add(membersList);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                sqlCommand?.Connection?.Close();
+            }
+
+            return listMemberPayments;
         }
     }
 }

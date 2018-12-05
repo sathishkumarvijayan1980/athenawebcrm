@@ -12,7 +12,9 @@ namespace CRMManager.Models
         public string ReceiptsCount { get; set; }
 
         public string PaymentDate { get; set; }
-       
+
+        public string PaymentMode { get; set; }
+
         public string PaymentAmount { get; set; }
 
         public string RegFeesAmt { get; set; }

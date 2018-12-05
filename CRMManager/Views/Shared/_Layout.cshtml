@@ -49,6 +49,10 @@
                             </li>
 
                             <li>
+                                <a href="/Members/MemberLastPaymentReport" class="waves-effect waves-primary"><i class="md md-access-alarm"></i><span> Member Last Payment</span></a>
+                            </li>
+
+                            <li>
                                 <a href="/Guest/GuestSearch" class="waves-effect waves-primary"><i class="md md-face-unlock"></i><span> Guest Entry</span></a>
                             </li>
 
@@ -63,17 +67,17 @@
 
 
                             @if ("SUPERADMIN".Equals(@Session["UserType"]))
-                        {
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect waves-primary active"><i class="md md-print"></i><span> Reports </span> <span class="menu-arrow"></span></a>
-                                <ul class="list-unstyled">
-                                    <li><a href="/Members/MembersListReport">Members</a></li>
-                                    <li><a href="/Payments/ReceiptsListReport">Receipts</a></li>
-                                    <li><a href="/Payments/MemberPaymentReport">Member Payments</a></li>
-                                    <li><a href="/Payments/GuestPaymentReport">Guest Payments</a></li>
-                                </ul>
-                            </li>
-                    }
+                            {
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect waves-primary active"><i class="md md-print"></i><span> Reports </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="/Members/MembersListReport">Members</a></li>
+                                        <li><a href="/Payments/ReceiptsListReport">Receipts</a></li>
+                                        <li><a href="/Payments/MemberPaymentReport">Member Payments</a></li>
+                                        <li><a href="/Payments/GuestPaymentReport">Guest Payments</a></li>
+                                    </ul>
+                                </li>
+                            }
 
                         </ul>
                         <div class="clearfix"></div>

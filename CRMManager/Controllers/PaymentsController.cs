@@ -140,7 +140,7 @@ namespace CRMManager.Controllers
             ViewBag.Message = Convert.ToInt32(selectedMonth);
             return View("ReceiptsListReport");
         }
-        
+
         public ActionResult MemberDayWiseCollectionReport()
         {
             List<PaymentReport> memberPayments = null;

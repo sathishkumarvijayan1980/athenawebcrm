@@ -85,6 +85,9 @@
                                         @Html.DisplayNameFor(model => model.PaymentDate)
                                     </th>
                                     <th>
+                                        @Html.DisplayNameFor(model => model.PaymentMode)
+                                    </th>
+                                    <th>
                                         @Html.DisplayNameFor(model => model.PaymentAmount)
                                     </th>
                                     <th>
@@ -102,23 +105,26 @@
                                     foreach (var item in searchResultData)
                                     {
 
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ReceiptsCount)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PaymentDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PaymentAmount)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.RegFeesAmt)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.SysRefNumber)
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReceiptsCount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaymentDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaymentMode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RegFeesAmt)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SysRefNumber)
+                                    </td>
+                                </tr>
                                     }
                                 }
 
